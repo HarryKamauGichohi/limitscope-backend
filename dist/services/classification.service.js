@@ -34,6 +34,12 @@ class ClassificationService {
             recommendation = 'Check your PayPal notification center for specific required steps. Usually resolved within 3-5 business days.';
             classificationDetails = 'Temporary limitation require immediate attention.';
         }
+        else if (restrictionType === 'UNKNOWN') {
+            likelihood = 'MEDIUM';
+            fundLikelihood = 'LOW';
+            recommendation = 'Our analyst will review your narrative to determine the limitation type. Please monitor your dashboard for updates.';
+            classificationDetails = 'Unidentified restriction type - expert analysis required.';
+        }
         // Adjust based on account type
         if (accountType === 'BUSINESS' && likelihood === 'MEDIUM') {
             recommendation += ' Be ready to provide supplier invoices and business license.';

@@ -17,4 +17,10 @@ router.get('/me', auth_middleware_1.authenticate, authController.getMe);
 // @route POST /api/auth/logout
 // @desc Logout user
 router.post('/logout', authController.logout);
+// @route PUT /api/auth/email
+// @desc Update user email (admin settings)
+router.put('/email', auth_middleware_1.authenticate, authController.updateEmail);
+// @route PUT /api/auth/password
+// @desc Update user password (admin settings)
+router.put('/password', auth_middleware_1.authenticate, authController.updatePassword);
 exports.default = router;

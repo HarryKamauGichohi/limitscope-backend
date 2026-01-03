@@ -16,18 +16,11 @@ class CasesService {
         });
     }
     async createCase(userId, data) {
-        // Run rules-based classification
-        const classification = await classificationService.classify({
-            restrictionType: data.restrictionType || 'TEMPORARY',
-            accountType: data.accountType || 'PERSONAL',
-            freeTextReason: data.freeTextReason,
-        });
         return client_1.default.payPalCase.create({
             data: {
                 ...data,
-                ...classification,
                 userId,
-                status: 'UNDER_REVIEW', // Automatically move to under review after classification
+                status: 'UNDER_REVIEW',
             },
         });
     }
@@ -35,6 +28,21 @@ class CasesService {
         return client_1.default.payPalCase.findFirst({
             where: { id, userId },
             include: { documents: true },
+        });
+    }
+    async markAsViewed(id, userId) {
+        return client_1.default.payPalCase.updateMany({
+            where: { id, userId },
+            data: { classificationViewed: true },
+        });
+    }
+    async payCase(id, userId, plan) {
+        return client_1.default.payPalCase.updateMany({
+            where: { id, userId },
+            data: {
+                isPaid: true,
+                paidPlan: plan
+            },
         });
     }
 }

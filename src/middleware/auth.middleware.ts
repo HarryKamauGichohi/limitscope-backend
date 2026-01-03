@@ -19,12 +19,16 @@ export const authenticate = (
     const token = req.cookies?.access_token || req.headers.authorization?.split(' ')[1];
 
     if (!token) {
+        console.log('[Auth] No token found. Cookies:', Object.keys(req.cookies || {}));
+        console.log('[Auth] Authorization header:', req.headers.authorization || 'none');
         const error: AppError = new Error('No token provided');
         error.statusCode = 401;
         // Don't log full stack trace for "No token" as it's common for initial page loads
         (error as any).isOperational = true;
         return next(error);
     }
+
+    console.log('[Auth] Token found, authenticating...');
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as {

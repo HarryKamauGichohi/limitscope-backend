@@ -9,12 +9,14 @@ const chatController = new ChatController();
 router.use(authenticate);
 
 // Client routes
-router.get('/messages/:caseId', chatController.getMyMessages);
-router.post('/messages/:caseId', chatController.sendMessageToAdmin);
+router.get('/messages', chatController.getMyMessages);
+router.post('/messages', chatController.sendMessageToAdmin);
+router.get('/case/:caseId/messages', chatController.getMyMessages);
+router.post('/case/:caseId/messages', chatController.sendMessageToAdmin);
 
 // Admin routes
 router.get('/conversations', isAdmin, chatController.getConversations);
-router.get('/messages/:userId', isAdmin, chatController.getUserMessages);
-router.post('/messages/:userId', isAdmin, chatController.replyToUser);
+router.get('/user/:userId/messages', isAdmin, chatController.getUserMessages);
+router.post('/user/:userId/messages', isAdmin, chatController.replyToUser);
 
 export default router;

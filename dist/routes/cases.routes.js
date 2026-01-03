@@ -16,4 +16,10 @@ router.post('/', casesController.createCase);
 // @route GET /api/cases/:id
 // @desc Get case details by ID
 router.get('/:id', casesController.getCaseDetails);
+// @route PUT /api/cases/:id/view-results
+// @desc Mark classification results as viewed
+router.put('/:id/view-results', casesController.viewResults);
+// @route PUT /api/cases/:id/pay
+// @desc Verify payment for recovery steps
+router.put('/:id/pay', casesController.payCase);
 exports.default = router;

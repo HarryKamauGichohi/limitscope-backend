@@ -14,11 +14,20 @@ export interface LoginDTO {
     password?: any;
 }
 
-const cookieOptions = {
+const isProduction = process.env.NODE_ENV === 'production';
+
+const cookieOptions: {
+    httpOnly: boolean;
+    secure: boolean;
+    sameSite: 'lax' | 'none' | 'strict';
+    maxAge: number;
+    path: string;
+} = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax' as const,
+    secure: false, // Set to false for development (HTTP), true for production (HTTPS)
+    sameSite: 'lax', // 'lax' works for same-site requests in development
     maxAge: 24 * 60 * 60 * 1000, // 1 day
+    path: '/', // Cookie available for all paths
 };
 
 export class AuthController {

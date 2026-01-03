@@ -1,27 +1,20 @@
-import prisma from '../prisma/client';
-
-export interface AdminCaseFilters {
-    search?: string;
-    status?: string;
-    email?: string;
-    startDate?: string;
-    endDate?: string;
-}
-
-export class AdminService {
-    async getAllCases(filters: AdminCaseFilters) {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AdminService = void 0;
+const client_1 = __importDefault(require("../prisma/client"));
+class AdminService {
+    async getAllCases(filters) {
         const { search, status, email, startDate, endDate } = filters;
-
-        const where: any = {};
-
+        const where = {};
         if (status) {
             where.status = status;
         }
-
         if (email) {
             where.user = { email: { contains: email, mode: 'insensitive' } };
         }
-
         if (search) {
             where.OR = [
                 { title: { contains: search, mode: 'insensitive' } },
@@ -31,14 +24,14 @@ export class AdminService {
                 { user: { email: { contains: search, mode: 'insensitive' } } },
             ];
         }
-
         if (startDate || endDate) {
             where.createdAt = {};
-            if (startDate) where.createdAt.gte = new Date(startDate);
-            if (endDate) where.createdAt.lte = new Date(endDate);
+            if (startDate)
+                where.createdAt.gte = new Date(startDate);
+            if (endDate)
+                where.createdAt.lte = new Date(endDate);
         }
-
-        return prisma.payPalCase.findMany({
+        return client_1.default.payPalCase.findMany({
             where,
             include: {
                 user: {
@@ -60,38 +53,33 @@ export class AdminService {
             ],
         });
     }
-
-    async updateCaseStatus(id: string, status: string) {
-        return prisma.payPalCase.update({
+    async updateCaseStatus(id, status) {
+        return client_1.default.payPalCase.update({
             where: { id },
             data: { status },
         });
     }
-
-    async updateCaseClassification(id: string, likelihood: string, fundLikelihood: string, recommendation?: string) {
-        return prisma.payPalCase.update({
+    async updateCaseClassification(id, likelihood, fundLikelihood, recommendation) {
+        return client_1.default.payPalCase.update({
             where: { id },
             data: { likelihood, fundLikelihood, recommendation },
         });
     }
-
-    async deleteCase(id: string) {
-        return prisma.payPalCase.delete({
+    async deleteCase(id) {
+        return client_1.default.payPalCase.delete({
             where: { id },
         });
     }
-
-    async addCaseNote(caseId: string, content: string) {
-        return prisma.caseNote.create({
+    async addCaseNote(caseId, content) {
+        return client_1.default.caseNote.create({
             data: {
                 content,
                 caseId,
             },
         });
     }
-
-    async getAllUsers(search?: string) {
-        const where: any = {};
+    async getAllUsers(search) {
+        const where = {};
         if (search) {
             where.OR = [
                 { email: { contains: search, mode: 'insensitive' } },
@@ -99,8 +87,7 @@ export class AdminService {
                 { lastName: { contains: search, mode: 'insensitive' } },
             ];
         }
-
-        return prisma.user.findMany({
+        return client_1.default.user.findMany({
             where,
             select: {
                 id: true,
@@ -122,3 +109,4 @@ export class AdminService {
         });
     }
 }
+exports.AdminService = AdminService;

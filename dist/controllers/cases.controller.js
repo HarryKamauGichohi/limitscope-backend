@@ -45,5 +45,30 @@ class CasesController {
             next(error);
         }
     }
+    async viewResults(req, res, next) {
+        try {
+            if (!req.user)
+                return res.status(401).json({ success: false, message: 'Unauthorized' });
+            const { id } = req.params;
+            await casesService.markAsViewed(id, req.user.id);
+            res.json({ success: true, message: 'Classification marked as viewed' });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async payCase(req, res, next) {
+        try {
+            if (!req.user)
+                return res.status(401).json({ success: false, message: 'Unauthorized' });
+            const { id } = req.params;
+            const { plan } = req.body;
+            await casesService.payCase(id, req.user.id, plan);
+            res.json({ success: true, message: 'Payment verified and case updated' });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
 }
 exports.CasesController = CasesController;

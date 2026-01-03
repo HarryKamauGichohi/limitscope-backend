@@ -16,7 +16,4 @@ router.post('/cases/:id/notes', adminController.addNote);
 
 router.get('/users', adminController.getUsers);
 
-router.get('/chat/:userId', adminController.getChat);
-router.post('/chat/:userId', adminController.sendMessage);
-
 export default router;
