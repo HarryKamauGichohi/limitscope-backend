@@ -33,6 +33,8 @@ app.use(
 const allowedOrigins = [
     process.env.FRONTEND_URL || 'https://www.limitscope.xyz',
     'https://limitscope.xyz',
+    'http://www.limitscope.xyz',
+    'http://limitscope.xyz',
     'http://localhost:3000',
 ];
 

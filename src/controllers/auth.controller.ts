@@ -16,16 +16,10 @@ export interface LoginDTO {
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const cookieOptions: {
-    httpOnly: boolean;
-    secure: boolean;
-    sameSite: 'lax' | 'none' | 'strict';
-    maxAge: number;
-    path: string;
-} = {
+const cookieOptions: any = {
     httpOnly: true,
-    secure: false, // Set to false for development (HTTP), true for production (HTTPS)
-    sameSite: 'lax', // 'lax' works for same-site requests in development
+    secure: isProduction, // true in production (requires HTTPS)
+    sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-site in prod, 'lax' for local dev
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     path: '/', // Cookie available for all paths
 };
