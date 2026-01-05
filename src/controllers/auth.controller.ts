@@ -22,6 +22,7 @@ const cookieOptions: any = {
     sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-site in prod, 'lax' for local dev
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     path: '/', // Cookie available for all paths
+    domain: isProduction ? '.limitscope.xyz' : undefined,
 };
 
 export class AuthController {
